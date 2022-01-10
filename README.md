@@ -1,6 +1,6 @@
 # Library Management System Django
-
-##Installation
+**
+INSTALLATION**
 
 First of all install python on your system. Then run `pip install -r requirements.txt` to required settings.
 Then run `python manage.py makemigration` `python manage.py migrate`.
