@@ -1,0 +1,35 @@
+{% extends "library/base.html" %} {% block content %}
+
+<table class="table"  style="margin: auto;">
+  <thead>
+    <tr>
+      <th scope="col">SN</th>
+      <th scope="col">Book Title</th>
+      <th scope="col">Author</th>
+      <th scope="col">Available Copies</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  {% if books %}
+  <tbody>
+    {% for book in books %}
+    <tr>
+      <th scope="row">{{ forloop.counter }}</th>
+      <td>{{book.title}}</td>
+      <td>{{book.author}}</td>
+      <td>{{book.available_copies}}</td>
+      <td>{% if request.user.is_admin or request.user.is_superuser %}<a href="{% url 'library:book-update' book.id%}">Update</a>  <a href="{% url 'library:book-delete' book.id%}">Remove</a>  {% endif %} <a href="{% url 'library:book' book.id%}">Details</a> </td>
+    </tr>
+
+    {% endfor %}
+  </tbody>
+  {% else %}
+  <tbody><tr><td colspan="6"> No Books in the Library.</td></tr></tbody>
+  {% endif %}
+</table>
+
+{% endblock %}
+
+
+
+

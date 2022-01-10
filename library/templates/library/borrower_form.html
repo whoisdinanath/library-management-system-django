@@ -1,0 +1,31 @@
+{% extends 'library/base.html' %}
+{% block content %}
+
+
+
+
+<div  class="card-body">
+    <a href="{% url 'library:borrower-list' %}">&#8592;Back</a>
+    <form method="POST" action="">
+    {%csrf_token%}
+    <label >{{form.student.label}} </label>
+    {{form.student}} 
+    
+    <label >{{form.book.label}} </label>
+    {{form.book}} 
+    <label >{{form.issue_date.label}} </label>
+    {{form.issue_date}}
+    
+    <label >{{form.return_date.label}} </label>
+    {{form.return_date}} 
+    
+
+    <label> <input class="button"  type="submit" value="Submit"></label>
+
+
+
+    </form>
+</div>
+
+
+{% endblock content %}

@@ -1,0 +1,37 @@
+{% extends "library/base.html" %} {% block content %}
+
+<table class="table" style="margin: auto;">
+  <thead>
+    <tr>
+      <th scope="col">SN</th>
+      <th scope="col">Student Name</th>
+      <th scope="col">Book</th>
+      <th scope="col">Return Date</th>
+      <th scope="col">Fine</th>
+      {% if request.user.is_admin or request.user.is_superuser %}
+      <th scope="col">Action</th>{% endif %}
+    </tr>
+  </thead>
+  {% if borrowers %}
+  <tbody>
+    {% for borrower in borrowers %}
+    <tr>
+      <th scope="row">{{ forloop.counter }}</th>
+      <td>{{borrower.student.name}}</td>
+      <td>{{borrower.book.title}}</td>
+      <td>{{borrower.return_date}}</td>
+      <td>{{borrower.fine}}</td>
+      <td>{% if request.user.is_admin or request.user.is_superuser %}
+        <a href="{% url 'library:borrower-update' borrower.id%}">Update</a>  <a href="{% url 'library:borrower-delete' borrower.id%}">Delete</a>
+        {% endif %}</td>
+    </tr>
+
+    {% endfor %}
+  </tbody>
+  {% else %}
+  <tbody><tr><td colspan="6"> No Books Issued.</td></tr></tbody>
+  {% endif %}
+</table>
+
+{% endblock %}
+

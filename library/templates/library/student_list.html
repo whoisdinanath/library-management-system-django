@@ -1,0 +1,24 @@
+{% extends "library/base.html" %} {% block content %}
+<table class="table"  style="margin: auto;">
+  <thead>
+    <tr>
+      <th scope="col">SN</th>
+      <th scope="col">Student Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for student in students %}
+    <tr>
+      <th scope="row">{{ forloop.counter }}</th>
+      <td>{{student.name}}</td>
+      <td>{{student.email}}</td>
+      <td><a href="{% url 'library:student-update' student.id%}">Update</a>  <a href="{% url 'library:student-delete' student.id%}">Delete</a>  <a href="{% url 'library:student-detail' student.id%}">Profile</a> </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
+
+

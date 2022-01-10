@@ -1,0 +1,23 @@
+{% extends 'library/base.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+
+<div class="profile">
+<div >
+    
+    <a href="{% url 'library:login' %}">&#8592; Back</a>
+</div>
+
+<div >
+    <h3>Fill in the form and the admins will register you and send the credentials in your email within 24 hours.</h3>
+    <form method="POST" action="">
+    {%csrf_token%}
+    {{form|crispy}}
+    <input class="button" type="submit" value="Submit">
+    
+    </form>
+</div>
+
+</div>
+
+{% endblock content %}

@@ -1,0 +1,34 @@
+{% extends 'library/base.html' %}
+{% block content %}
+
+
+<div class="card-body">
+
+    <form method="POST" enctype="multipart/form-data">
+        {%csrf_token%}
+        
+        {{form.as_p}}
+
+            <input style="margin-top: 10px;" class="button" type="submit" value="Update">
+        
+        
+        </form>
+
+</div>
+
+
+
+
+{% endblock content %}
+        
+<label >{{form.email.label}} <span>(Add a valid email)</span></label>
+{{form.email}} 
+
+<label >{{form.name.label}} </label>
+{{form.name}} 
+
+<label >{{form.username.label}} </label>
+{{form.username}} 
+
+<label >{{form.pic.label}} </label>
+{{form.pic}} 

@@ -1,0 +1,21 @@
+{% extends 'library/base.html' %}
+{% block content %}
+
+
+<div class="profile" >
+<h1 style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; margin-top: 2em; ">Login</h1>
+    <form method="POST">
+        {%csrf_token%}
+        
+            {{form.as_p}}
+            <input class="button" type="submit" value="Login">
+        
+        
+        </form>
+        <br>
+<p>Fill in the form to register for the library: <a href="{% url 'library:info-register' %}">Register</a></p>
+</div>
+
+
+
+{% endblock content %}

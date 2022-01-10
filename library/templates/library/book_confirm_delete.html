@@ -1,0 +1,20 @@
+
+{% extends 'library/base.html' %}
+{% block content %}
+
+
+<div >
+    <a href="{% url 'library:book-list' %}">&#8592;Back</a>
+</div>
+
+<div >
+    <form method = "POST">
+        {%csrf_token%}
+        <p>Are you sure you want to delete the book '{{book|title}}'?</p>
+        <input class="button" type="submit" value="Submit">
+        </form>
+</div>
+
+
+
+{% endblock content %}

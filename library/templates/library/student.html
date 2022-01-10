@@ -1,0 +1,23 @@
+{% extends 'library/base.html' %}
+{% block content %}
+<div class="profile">
+{% if student.pic %}
+<div class="about__img img">
+    <img src="{{student.pic.url}}" alt="">
+</div>
+{% else %}
+<div class="about__img img">
+    <img src="/static/avatar/images.png" alt="">
+</div>
+{% endif %}
+<p><h1>{{student.name|title}}</h1></p>
+<p>Enrollment No: {{student.enrollment_no}}</p>
+<p>Date Joined: {{student.date_joined}}</p>
+<a  href="{% url 'library:student-update' student.id%}">Edit Profile</a>
+</div>
+{% endblock content %}
+
+
+
+
+

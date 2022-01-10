@@ -1,0 +1,29 @@
+{% extends 'library/base.html' %}
+{% block content %}
+<div class="profile">
+{% if book.pic %}
+<div class="about__img img">
+    <img src="{{book.pic.url}}" alt="">
+</div>
+{% else %}
+<div class="about__img img">
+    <img src="/static/avatar/open-book-clipart-03.png" alt="">
+</div>
+{% endif %}
+{% if request.user.is_admin or request.user.is_superuser %}
+<a  href="{% url 'library:book-update' book.id%}">Edit</a>
+{% endif %}
+<span><h1>{{book.title|title}}</h1></span>
+<p style="width: 50%; margin: auto;">{{book.summary}}</p>
+<p><h4 style="margin: auto;">Genre:</h4> {{book.genre.all|join:', '}}</p>
+<p> <h4 style="margin: auto;">ISBN:</h4>  {{book.isbn}}</p>
+
+
+
+</div>
+{% endblock content %}
+
+
+
+
+
