@@ -15,4 +15,4 @@ While, student can login and see books list and the books issued by them.
 To register students have to fill up a information form and after that admin can view the informations sent by student in admin site and add a new student based on the details filled by the students in the information form if he/she is verified student of the given organizations.
 Then admin will send the credentials created by them via email to the student and using those credentials student can login to the library.
 
-Before adding new books please go to the http://127.0.0.1/admin admin site and add the required genre and language manually as we cannot add genre and language through the site. And visit the admin site to see information form regularly as if someone had registered for the library.
+Before adding new books please go to the http://127.0.0.1:8000/admin admin site and add the required genre and language manually as we cannot add genre and language through the site. And visit the admin site to see information form regularly as if someone had registered for the library.
