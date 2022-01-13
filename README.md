@@ -1,5 +1,4 @@
 # Library Management System Django
-==================================
 
 ## Installation
 
