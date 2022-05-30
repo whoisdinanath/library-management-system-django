@@ -5,6 +5,8 @@
       <th scope="col">SN</th>
       <th scope="col">Student Name</th>
       <th scope="col">Email</th>
+      <th scope="col">Status</th>
+      <th scope="col">Books</th>
       <th scope="col">Action</th>
     </tr>
   </thead>
@@ -15,7 +17,10 @@
       <th scope="row">{{ forloop.counter }}</th>
       <td>{{student.name}}</td>
       <td>{{student.email}}</td>
+      <td>{% if student.is_active %}Active{% else %}Inactive{% endif %}</td>
+      <td>{{student.borrowed}}</td>
       <td><a href="{% url 'library:student-update' student.id%}">Update</a>  <a href="{% url 'library:student-delete' student.id%}">Delete</a>  <a href="{% url 'library:student-detail' student.id%}">Profile</a> </td>
+
     </tr>
     {% endfor %}
   </tbody>

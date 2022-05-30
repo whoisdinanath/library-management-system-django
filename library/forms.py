@@ -11,6 +11,8 @@ class RegistrationForm(UserCreationForm):
     class Meta:
         model = Account
         fields = ('email', 'name', 'username','enrollment_no', 'password1', 'password2','pic' )
+		
+		
 
 
 class AccountAuthenticationForm(forms.ModelForm):
@@ -33,7 +35,9 @@ class AccountUpdateForm(forms.ModelForm):
 
 	class Meta:
 		model = Account
-		fields = ('email','name' ,'username', 'pic' )
+		fields = ('name' ,'username', 'pic','is_active' )
+
+        
 
 	def clean_email(self):
 		email = self.cleaned_data['email']

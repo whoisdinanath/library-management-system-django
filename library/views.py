@@ -31,17 +31,27 @@ class UserLoginView(LoginView):
 
     def get_success_url(self):
         return reverse_lazy('library:home')
+        
+def registerUser(request):
+    page = 'register'
+    form = RegistrationForm()
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.username = user.username.lower()
+            user.is_active = False
+            user.save()
+            messages.success(request, 'Succefully Registered!')
+            return redirect('library:home')
+        else:
+            messages.error(request, "An error occured while registering user!")
 
-class InformationView(CreateView):
-    template_name='library/information_form.html'
-    model=InformationForm
-    context_object_name="account_register"
-    fields=['email', 'name', 'username', 'student']
-    success_url=reverse_lazy('library:login')
-
-    def form_valid(self, form):
-        form.instance.user=self.request.user
-        return super(InformationView, self).form_valid(form)
+    context={
+        'page':page,
+        'form':form
+    }
+    return render(request, 'library/register.html', context)
 
 
 class HomeView(LoginRequiredMixin, TemplateView):
@@ -165,6 +175,10 @@ class StudentUpdate(LoginRequiredMixin, UpdateView):
         user = form.save()
         return super(StudentUpdate, self).form_valid(form)
 
+
+
+
+
 class StudentDelete(LoginRequiredMixin,UserAccessMixin,  DeleteView):
     model=Account
     template_name = 'library/student_confirm_delete.html'
@@ -189,6 +203,8 @@ class BorrowerView(LoginRequiredMixin, ListView):
 
 
         return context
+    
+
 
 
 
@@ -205,13 +221,21 @@ class BorrowerCreate(LoginRequiredMixin, UserAccessMixin, CreateView):
         book = Book.objects.get(id=instance.book.id)
         student = Account.objects.get(id=instance.student.id)
         #get the book id from the form and check if the book is still available, then subtract.
-        if book.available_copies > 0:
-           book.available_copies -= 1
-           book.save()
-           instance.save()
-           messages.success(self.request, "successful")
-        messages.error(self.request, "Book not in stock")
+        if len(student.borrowed)<6:
+            if student.id not in book.borrowers:
+                if book.available_copies > 0:
+                    book.available_copies -= 1
+                    book.save()
+                    instance.save()
+                    messages.success(self.request, "successful")
+                else:
+                    messages.error(self.request, "Book not in stock")
+            else:
+                messages.error(self.request,"Book is already borrowed by the student.")
+        else:
+                messages.error(self.request,"Student has reached the maximum book count.")
         return redirect(reverse_lazy('library:borrower-list'))
+
 
 
 
@@ -237,11 +261,4 @@ class BorrowerDelete(LoginRequiredMixin,UserAccessMixin,  DeleteView):
     success_url=reverse_lazy('library:borrower-list')
 
 
-    def delete(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        success_url = self.get_success_url()
-        book = Book.objects.get(id=self.object.book.id)
-        book.available_copies +=1
-        book.save()
-        self.object.delete()
-        return redirect('library:borrower-list')
+  

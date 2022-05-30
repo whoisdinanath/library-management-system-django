@@ -1,5 +1,12 @@
 {% extends "library/base.html" %} {% block content %}
-
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong>Holy guacamole!</strong> {{message}}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+{% endif %}
 <table class="table" style="margin: auto;">
   <thead>
     <tr>

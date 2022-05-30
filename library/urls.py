@@ -7,11 +7,13 @@ from django.contrib.auth.views import LogoutView
 app_name = 'library'
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
-    path('info-register/', InformationView.as_view(), name='info-register'),
+    
 
 
     path('login/', UserLoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(next_page='library:login'), name='logout'),
+    path('register/', registerUser, name='register'),
+
 
     path('books/', BookView.as_view(), name='book-list'),
     path('book/create/', BookCreate.as_view(), name='book-create'),

@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 # Used to generate urls by reversing the URL patterns
 from django.urls import reverse
 from django.db.models.signals import post_save
+from django.db.models.signals import pre_save, pre_delete, post_delete
 from django.contrib.auth.models import PermissionsMixin
 from django.utils.timezone import now
 import uuid
@@ -55,8 +56,8 @@ class Account(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(verbose_name="email", max_length=60, unique=True)
     name = models.CharField(max_length=60, unique=False)
     username = models.CharField(max_length=30, unique=True)
-    enrollment_no = models.IntegerField(
-        unique=True, default=random.randint(10000, 99999))
+    enrollment_no = models.CharField(max_length=12,
+        unique=True)
     date_joined = models.DateTimeField(
         verbose_name='date joined', auto_now_add=True)
     last_login = models.DateTimeField(verbose_name='last login', auto_now=True)
@@ -81,6 +82,12 @@ class Account(AbstractBaseUser, PermissionsMixin):
         # Does this user have permission to view this app? (ALWAYS YES FOR SIMPLICITY)
     def has_module_perms(self, app_label):
         return True
+    @property
+    def borrowed(self):
+        query = self.borrower_set.all().values_list('book__title', flat=True)
+        return list(query)
+
+
 
 
 class Genre(models.Model):
@@ -100,8 +107,6 @@ class Language(models.Model):
     def __str__(self):
         return self.name
 
-# book relation that has 2 foreign key genre language
-# book relation can contain multiple genre so we have used manytomanyfield
 
 
 class Book(models.Model):
@@ -125,11 +130,13 @@ class Book(models.Model):
     def __str__(self):
         return self.title
 
+    @property
+    def borrowers(self):
+        query = self.borrower_set.all().values_list('student__id', flat=True)
+        return query
 
-# relation containing info about Borrowed books
-# it has  foriegn key book and student for refrencing book and student
-# roll_no is used for identifing students
-# if a book is returned than corresponding tuple is deleted from database
+
+
 class Borrower(models.Model):
     id = models.UUIDField(primary_key=True, unique=True,
                           default=uuid.uuid4, editable=False)
@@ -150,12 +157,11 @@ class Borrower(models.Model):
             fine += 5 * (today - self.return_date).days
         return fine
 
+def borrower_pre_delete(sender, instance, *args, **kwargs):
+    try:
+        instance.book.available_copies += 1
+        instance.book.save()
+    except:
+        raise ValueError('Error while updating')
 
-class InformationForm(models.Model):
-    email = models.EmailField(verbose_name="email", max_length=60, unique=True)
-    name = models.CharField(max_length=60, unique=False)
-    username = models.CharField(max_length=30, unique=True)
-    student = models.BooleanField(default=False)
-
-    def __str__(self):
-        return self.email
+pre_delete.connect(borrower_pre_delete, sender=Borrower)
