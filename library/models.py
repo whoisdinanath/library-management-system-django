@@ -43,6 +43,7 @@ class MyAccountManager(BaseUserManager):
             username=username,
             name=name,
             enrollment_no = enrollment_no,
+            
 
         )
         user.is_admin = True
@@ -59,7 +60,7 @@ class Account(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=60, unique=False)
     username = models.CharField(max_length=30, unique=True)
     enrollment_no = models.CharField(max_length=12,
-        unique=True)
+                                     unique=True, null=True, blank=True)
     date_joined = models.DateTimeField(
         verbose_name='date joined', auto_now_add=True)
     last_login = models.DateTimeField(verbose_name='last login', auto_now=True)
@@ -70,7 +71,7 @@ class Account(AbstractBaseUser, PermissionsMixin):
     is_superuser = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['name', 'username']
+    REQUIRED_FIELDS = ['name', 'username', 'enrollment_no']
 
     objects = MyAccountManager()
 

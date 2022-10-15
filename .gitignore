@@ -1,5 +1,6 @@
 lib_env
 .idea
 */__pycache__
-*/migrations
+*/migrations/__pycache__
+!*/migrations/0001_initial.py
 db.sqlite3
