@@ -1,18 +1,37 @@
 # Library Management System Django
 
+## Description
+
+A Library Management System built using Django to manage books and students. The system allows admins to add, edit, and delete books and student profiles, issue books to students, and manage book returns. Students can view available books and track the books issued to them.
+
+## Technologies Used
+
+- **Django**: Backend framework
+- **Bootstrap**: Frontend framework for styling
+- **SQLite**: Default database for development
+
 ## Installation
 
-First of all install python on your system. Then run `pip install -r requirements.txt` to required settings.
-Then run `python manage.py makemigration` `python manage.py migrate`.
-Finally it's time to create superuser/admin who will be managing students and books!
-Run `python manage.py createsuperuser` and enter the required data.
-After that run `python manage.py runserver` and head over to the browser to http://127.0.0.1:8000 and login.
+1. **Install Python**: Ensure Python is installed on your system.
+2. **Install Dependencies**: Run `pip install -r requirements.txt` to install the required packages.
+3. **Database Migrations**:
+   - Run `python manage.py makemigrations`
+   - Run `python manage.py migrate`
+4. **Create Superuser**: Run `python manage.py createsuperuser` and enter the required details.
+5. **Run the Server**: Execute `python manage.py runserver` and navigate to [http://127.0.0.1:8000](http://127.0.0.1:8000) in your browser to log in.
 
-There are two types of user one is superuser/admin and another is regular user/students.
-Superuser/Admin can add students, add books, issue books to student, delete the returned book, edit and delete books and students profile.
+## User Types
 
-While, student can login and see books list and the books issued by them.
-To register students have to fill up a information form and after that admin can view the informations sent by student in admin site and add a new student based on the details filled by the students in the information form if he/she is verified student of the given organizations.
-Then admin will send the credentials created by them via email to the student and using those credentials student can login to the library.
+- **Superuser/Admin**: Can manage students, books, issue books, delete returned books, and edit/delete profiles.
+- **Regular User/Student**: Can log in, view book lists, and see books issued to them.
 
-Before adding new books please go to the http://127.0.0.1:8000/admin admin site and add the required genre and language manually as we cannot add genre and language through the site. And visit the admin site to see information form regularly as if someone had registered for the library.
+## Student Registration
+
+1. Students fill out an information form.
+2. Admin reviews the submitted information in the admin site.
+3. Admin verifies the student and creates a new student profile.
+4. Admin sends login credentials to the student via email.
+
+## Adding New Books
+
+Before adding new books, manually add the required genres and languages in the admin site at [http://127.0.0.1:8000/admin](http://127.0.0.1:8000/admin). Regularly check the admin site for new student registrations.
